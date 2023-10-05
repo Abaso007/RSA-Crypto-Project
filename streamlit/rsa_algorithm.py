@@ -13,12 +13,7 @@ def generate_primes():
         for j in range(i * 2, 250, i):
             sieve[j] = False
 
-    primes = set()
-    for i in range(len(sieve)):
-        if sieve[i]:
-            primes.add(i)
-
-    return primes
+    return {i for i in range(len(sieve)) if sieve[i]}
 
 def generate_random_prime(primes):
     """
@@ -56,7 +51,7 @@ def generate_keys():
 
     d = 2
     while True:
-        if (d * e) % fi == 1:
+        if d * public_key % fi == 1:
             break
         d += 1
 
@@ -70,10 +65,7 @@ def encrypt_plaintext(msg_plaintext, public_key):
     """
     e, n = public_key
 
-    # pow(x, y, z): x is the base, y is the exponent and z the modulus
-    msg_ciphertext = [pow(ord(c), e, n) for c in msg_plaintext]
-    
-    return msg_ciphertext
+    return [pow(ord(c), e, n) for c in msg_plaintext]
 
 
 def decrypt_ciphertext(msg_ciphertext, private_key):
